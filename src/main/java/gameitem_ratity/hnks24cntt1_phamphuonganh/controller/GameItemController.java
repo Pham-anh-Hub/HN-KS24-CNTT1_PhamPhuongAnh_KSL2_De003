@@ -59,11 +59,22 @@ public class GameItemController {
             Model model
     ){
         if (bindingResult.hasErrors()){
+            model.addAttribute("ratityList",ratityService.getAllRatity());
             model.addAttribute("gameItemDTO", gameItemDTO);
             return "form-view-add";
         }
 
         gameItemService.save(gameItemDTO);
+        return "redirect:/game-items/list";
+    }
+
+
+
+    @GetMapping("/delete/{id}")
+    public String onDelete(
+            @PathVariable(name = "id") String delId
+    ){
+        gameItemService.deleteGameItem(Long.parseLong(delId));
         return "redirect:/game-items/list";
     }
 }

@@ -77,6 +77,6 @@ public class GameItemServiceImpl implements IGameItemService{
 
     @Override
     public void deleteGameItem(Long id) {
-
+        gameItemRepository.deleteById(id);
     }
 }

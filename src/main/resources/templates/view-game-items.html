@@ -55,14 +55,18 @@
         <td th:text="*{ratity.name}"></td>
         <td th:text="*{dropDate}"></td>
         <td>
-            <img style="width: 50px; height: 50px" th:src="${g.itemImage.isEmpty() ? 'https://opengameart.org/sites/default/files/short_sword_game_item.jpg' : g.itemImage}" alt="Item Image">
+            <img style="width: 50px; height: 50px" th:src="${g.itemImage.isEmpty()} ? 'https://opengameart.org/sites/default/files/short_sword_game_item.jpg' : ${'/images/' + g.itemImage}" alt="Item Image">
         </td>
         <td th:text="${g.isTradeable ? 'Tradeable' : 'UnTradeable'}"></td>
         <td>
             <a class="btn btn-warning">Sửa</a>
         </td>
         <td>
-            <a class="btn btn-danger text-light">Xóa</a>
+            <a class="btn btn-danger text-light"
+               th:href="@{/game-items/delete/{id}(id=${g.id})}"
+               th:data-name="${g.itemName}"
+               onclick="return confirm('Bạn có chắc chắn xóa vật phẩm ' + this.dataset.name + '?')"
+            >Xóa</a>
         </td>
     </tr>
     </tbody>
