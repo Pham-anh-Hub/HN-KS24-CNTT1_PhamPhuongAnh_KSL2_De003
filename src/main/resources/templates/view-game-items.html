@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar navbar-expand-sm navbar-light bg-light">
+    <a class="navbar-brand" href="#">Game Items Management</a>
+
+    <div class="collapse navbar-collapse" id="collapsibleNavId">
+
+    </div>
+</nav>
+
+    <h1 style="margin: 20px auto; text-align: center">DANH SÁCH VẬT PHẨM</h1>
+
+    <div style="width: 90%; margin: 10px auto; display: flex; justify-content: space-between">
+        <form class="form-inline my-2 my-lg-0">
+            <input name="search" class="form-control mr-sm-2" type="text" placeholder="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+        <div>
+            <a th:href="@{/game-items/view-add}" class="btn btn-outline-primary">Thêm mới vật phẩm</a>
+            <a class="btn btn-outline-secondary">Bổ sung độ hiếm</a>
+        </div>
+    </div>
+
+<table style="width: 90%" class="mx-auto table table-striped table-inverse">
+    <thead class="thead-inverse">
+    <tr>
+        <th>STT</th>
+        <th>Item Name</th>
+        <th>Game Title</th>
+        <th>Market Price</th>
+        <th>Ratity</th>
+        <th>Drop Date</th>
+        <th>Item Image</th>
+        <th>Is Tradeable</th>
+        <th colspan="2">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="g,loop : ${gameItems}" th:object="${g}" >
+        <td th:text="${page * pageSize + loop.count}"></td>
+        <td th:text="*{itemName}"></td>
+        <td th:text="*{gameTitle}"></td>
+        <td th:text="|${g.getFormatPrice()} VND|"></td>
+        <td th:text="*{ratity.name}"></td>
+        <td th:text="*{dropDate}"></td>
+        <td>
+            <img style="width: 50px; height: 50px" th:src="${g.itemImage.isEmpty() ? 'https://opengameart.org/sites/default/files/short_sword_game_item.jpg' : g.itemImage}" alt="Item Image">
+        </td>
+        <td th:text="${g.isTradeable ? 'Tradeable' : 'UnTradeable'}"></td>
+        <td>
+            <a class="btn btn-warning">Sửa</a>
+        </td>
+        <td>
+            <a class="btn btn-danger text-light">Xóa</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<nav style="display: flex; flex-direction: row; justify-content: center" aria-label="Page navigation">
+    <ul class="pagination">
+        <li th:class="|page-item ${page  == 0 ? 'disabled' : ''}|">
+            <a class="page-link" th:href="@{|?page=${page - 1}&search=${search}|}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+            </a>
+        </li>
+        <li th:class="|page-item ${n == page + 1 ? 'active' : ''}|" th:each="n : ${#numbers.sequence(1, totalPage)}">
+            <a th:text="${n}" class="page-link" th:href="@{|?page=${n - 1}&search=${search}|}"></a>
+        </li>
+        <li th:class="|page-item ${page == totalPage - 1 ? 'disabled' : ''}|">
+            <a class="page-link" th:href="@{|?page=${page + 1}&search=${search}|}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+</html>
